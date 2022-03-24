@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <main>
+      <div>
+        <form method="POST" action="/add/product">
+          <div>
+            <label for="title">Title</label>
+            <input id="title" name="title" type="text" />
+          </div>
+
+          <div>
+            <label for="quantity">How many of this items do you have?</label>
+            <input id="quantity" name="quantity" type="number" value="10" />
+          </div>
+
+          <div>
+            <label for="imageURL"
+              >Enter a url for an image that would be used for this wonderful
+              product of yours!</label
+            >
+            <input id="imageURL" name="imageURL" type="text" />
+          </div>
+
+          <input type="submit" value="Submit your awesome product!!!!" />
+        </form>
+      </div>
+    </main>
+  </body>
+</html>

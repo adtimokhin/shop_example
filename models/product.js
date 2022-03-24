@@ -36,12 +36,11 @@ module.exports = class Product {
   }
 
   static getProductById(id) {
-    products.forEach((product) => {
-      if (product.getId() == id) {
-        return product;
+    for (var i = 0; i < products.length; i++) {
+      if (products[i].getId() == id) {
+        return products[i];
       }
-    });
-
+    }
     return null;
   }
 };

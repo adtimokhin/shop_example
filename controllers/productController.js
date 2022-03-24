@@ -34,7 +34,25 @@ const getAllProducts = (request, response, next) => {
   });
 };
 
+const getProduct = (request, response, next) => {
+  let productId = request.params.productId;
+
+  const product = Product.getProductById(productId);
+
+  if (product) {
+    response.render("product.ejs", {
+      path: urls.ALL_PRODUCTS_PATH + "/" + productId,
+      pageTitle: product.getTitle(),
+      product: product,
+    });
+  } else {
+    next();
+  }
+};
+
 module.exports.getAddProduct = getAddProduct;
 module.exports.postAddProduct = postAddProduct;
 
 module.exports.getAllProducts = getAllProducts;
+
+module.exports.getProduct = getProduct;

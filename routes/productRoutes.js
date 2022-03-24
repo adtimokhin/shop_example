@@ -10,5 +10,6 @@ router.post(urls.ADD_PRODUCT_PATH, controller.postAddProduct);
 
 router.get(urls.ALL_PRODUCTS_PATH, controller.getAllProducts);
 
+router.get(urls.ALL_PRODUCTS_PATH + "/:productId", controller.getProduct);
 
 module.exports = router;

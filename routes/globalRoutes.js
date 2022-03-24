@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-// Soon we will add controllers that will map some actions to urls passed in the routers. For now, the two will be combined in here.
+const controller = require("../controllers/globalController.js");
 
-router.get("/say_hi", (requesst, response, next) => {
-  response.render("index.ejs");
-});
+const urls = require("../static/urls.js");
+
+router.get("/say_hi", controller.getIndex);
+
+router.get("/add/product", controller.postAddProduct);
+
+router.get(urls.ALL_PRODUCTS_PATH, controller.getAllProducts);
 
 module.exports = router;

@@ -15,4 +15,8 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public"))); // making "public" folder be viewed as static content folder
 app.use(globalRouter);
 
+app.use("/", (request, respnse, next) => {
+  respnse.render("error/404.ejs");
+});
+
 app.listen(8080);

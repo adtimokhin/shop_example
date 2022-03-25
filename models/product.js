@@ -43,4 +43,8 @@ module.exports = class Product {
     }
     return null;
   }
+
+  static deleteProduct(product) {
+    products.splice(products.indexOf(product), 1);
+  }
 };

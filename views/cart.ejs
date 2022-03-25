@@ -15,10 +15,10 @@
         <% for (let product of products) { %>
         <article class="card product-item">
           <header class="card__header">
-            <h1 class="product__title"><%= product.title %></h1>
+            <h1 class="product__title"><%= product.product.title %></h1>
           </header>
           <div class="card__image">
-            <img src="<%= product.imageURL %>" alt="A Book" />
+            <img src="<%= product.product.imageURL %>" alt="A Book" />
           </div>
           <div class="card__content">
             <h2 class="product__price">$19.99</h2>
@@ -26,10 +26,11 @@
               A very interesting book about so many even more interesting
               things!
             </p>
+            <p>You have put <%= product.quantity %> products into your cart!</p>
           </div>
           <div class="card__actions">
-            <form action="/cart/add/<%= product.id %>" method="POST">
-              <input type="submit" value="Add to Cart" />
+            <form action="/cart/delete/<%= product.product.id %>" method="POST">
+              <input type="submit" value="Remove from Cart" />
             </form>
           </div>
         </article>
@@ -40,5 +41,6 @@
       <% } %>
     </main>
   </body>
-  <script type="text/javascript" src="../public/js/addToCart.js"></script>
+
+  <script type="text/javascript" src="../public/js/removeFromCart.js"></script>
 </html>

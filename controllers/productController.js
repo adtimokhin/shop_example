@@ -16,14 +16,12 @@ const postAddProduct = (request, response, next) => {
   const imageURL = request.body.imageURL;
 
   const product = new Product(title, imageURL, quantity);
-
   Product.addProduct(product);
-
-  response.status(302).render("products.ejs", {
-    path: urls.ALL_PRODUCTS_PATH,
-    pageTitle: "All products",
-    products: Product.getAllProducts(),
-  });
+  response
+    .writeHead(301, {
+      Location: urls.ALL_PRODUCTS_PATH,
+    })
+    .end();
 };
 
 const getAllProducts = (request, response, next) => {
@@ -34,6 +32,7 @@ const getAllProducts = (request, response, next) => {
   });
 };
 
+// get product by its id
 const getProduct = (request, response, next) => {
   let productId = request.params.productId;
 
@@ -50,8 +49,28 @@ const getProduct = (request, response, next) => {
   }
 };
 
+// delete product by its id
+const deleteProduct = (request, response, next) => {
+  const productId = request.params.productId;
+
+  const product = Product.getProductById(productId);
+
+  if (product) {
+    Product.deleteProduct(product);
+    response
+      .writeHead(301, {
+        Location: urls.ALL_PRODUCTS_PATH,
+      })
+      .end();
+  } else {
+    next();
+  }
+};
+
 module.exports.getAddProduct = getAddProduct;
 module.exports.postAddProduct = postAddProduct;
+
+module.exports.deleteProduct = deleteProduct;
 
 module.exports.getAllProducts = getAllProducts;
 

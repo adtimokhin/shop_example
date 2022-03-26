@@ -17,7 +17,7 @@ const postAddProduct = (request, response, next) => {
   const price = request.body.price;
   const stock = request.body.stock;
 
-  const product = Product.create({
+  Product.create({
     title: title,
     imageURL: imageURL,
     description: description,

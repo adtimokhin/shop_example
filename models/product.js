@@ -1,50 +1,38 @@
-products = [];
+const Sequelize = require("sequelize");
+const sequelize = require("../util/database.js");
 
-module.exports = class Product {
-  static id = 1;
+const Product = sequelize.define(
+  "product",
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    title: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    imageURL: {
+      type: Sequelize.TEXT,
+      allowNull: false,
+    },
+    description: {
+      type: Sequelize.TEXT,
+      allowNull: false,
+    },
+    price: {
+      type: Sequelize.DOUBLE,
+      allowNull: false,
+    },
+    stock: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 1,
+    },
+  },
+  { timestamps: false }
+);
 
-  constructor(name, imageURL, quantity = 10) {
-    this.title = name;
-    this.imageURL = imageURL;
-    this.quantity = quantity;
-    this.id = Product.id++;
-  }
-
-  getTitle() {
-    return this.title;
-  }
-
-  getImageURL() {
-    return this.imageURL;
-  }
-
-  getId() {
-    return this.id;
-  }
-
-  getQuantity() {
-    return this.quantity;
-  }
-
-  // Static methods:
-  static getAllProducts() {
-    return products;
-  }
-
-  static addProduct(product) {
-    products.push(product);
-  }
-
-  static getProductById(id) {
-    for (var i = 0; i < products.length; i++) {
-      if (products[i].getId() == id) {
-        return products[i];
-      }
-    }
-    return null;
-  }
-
-  static deleteProduct(product) {
-    products.splice(products.indexOf(product), 1);
-  }
-};
+module.exports = Product;

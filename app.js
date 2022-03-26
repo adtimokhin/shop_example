@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 
 const app = express();
+const sequelize = require("./util/database.js");
 
 // importing routers:
 const globalRouter = require("./routes/globalRoutes.js");
@@ -26,5 +27,7 @@ app.use(globalRouter);
 app.use("/", (request, respnse, next) => {
   respnse.render("error/404.ejs");
 });
+
+sequelize.sync();
 
 app.listen(8080);

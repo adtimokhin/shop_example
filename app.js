@@ -10,6 +10,7 @@ const globalRouter = require("./routes/globalRoutes.js");
 const productRouter = require("./routes/productRoutes.js");
 const cartRouter = require("./routes/cartRoutes.js");
 const adminRouter = require("./routes/adminRoutes.js");
+const orderRouter = require("./routes/orderRoutes.js");
 
 const User = require("./models/user.js");
 
@@ -26,7 +27,13 @@ app.use((request, response, next) => {
   // add a user to all requests!!
   User.findById("6242088033f9e35acab0abaa")
     .then((user) => {
-      request.user = new User(user.name, user.email, user.password, user.cart, user._id);
+      request.user = new User(
+        user.name,
+        user.email,
+        user.password,
+        user.cart,
+        user._id
+      );
       next();
     })
     .catch((err) => {
@@ -37,6 +44,7 @@ app.use((request, response, next) => {
 // my routers:
 app.use(productRouter);
 app.use(cartRouter);
+app.use(orderRouter);
 app.use(adminRouter);
 app.use(globalRouter);
 

@@ -58,6 +58,12 @@ class User {
       .updateOne({ _id: this._id }, { $set: { "cart.items": updatedItems } });
   }
 
+  emptyCart() {
+    return getDb()
+      .collection("users")
+      .updateOne({ _id: this._id }, { $set: { "cart.items": [] } });
+  }
+
   getCart() {
     const db = getDb();
     const itemIds = this.cart.items.map((i) => {

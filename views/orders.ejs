@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+  </head>
+  <body>
+    <p>This page will display all products in the system.</p>
+
+    <main>
+      <% if (orders.length > 0) { %>
+      <div class="grid">
+        <% for (let order of orders) { %>
+        <article class="card product-item">
+          <header class="card__header">
+            <h1 class="product__title">Order id: <%= order._id %></h1>
+          </header>
+          <% if(order.products.length > 0) { %> <% for (let product of
+          order.products) { %>
+          <div class="card__content">
+            <h2 class="product__price"><%= product.title %></h2>
+            <p class="product__description">$ <%= product.price%></p>
+            <p>
+              You have put <%= product.quantity %> products into your order!
+            </p>
+          </div>
+          <% } %> <% } %>
+        </article>
+        <% } %>
+      </div>
+      <% } else { %>
+      <h1>No orders found!</h1>
+      <% } %>
+    </main>
+  </body>
+</html>

@@ -1,9 +1,9 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+const mongoConnect = require("./util/database.js").mongoConnect;
 
 const app = express();
-const sequelize = require("./util/database.js");
 
 // importing routers:
 const globalRouter = require("./routes/globalRoutes.js");
@@ -11,11 +11,7 @@ const productRouter = require("./routes/productRoutes.js");
 const cartRouter = require("./routes/cartRoutes.js");
 const adminRouter = require("./routes/adminRoutes.js");
 
-// models:
 const User = require("./models/user.js");
-const Cart = require("./models/cart.js");
-const Product = require("./models/product.js");
-const CartItem = require("./models/cart-item.js");
 
 //configuring template view engine
 app.set("views", "views"); // specifing where views live
@@ -27,10 +23,15 @@ app.use(express.static(path.join(__dirname, "public"))); // making "public" fold
 
 app.use((request, response, next) => {
   // temporary measure until we do not have authentication in place.
-  User.findOne({ where: { id: 1 } }).then((user) => {
-    request.user = user;
-    next();
-  });
+  // add a user to all requests!!
+  User.findById("6242088033f9e35acab0abaa")
+    .then((user) => {
+      request.user = new User(user.name, user.email, user.password, user.cart, user._id);
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 // my routers:
@@ -44,23 +45,6 @@ app.use("/", (request, respnse, next) => {
   respnse.render("error/404.ejs");
 });
 
-// setting relations for models.
-
-// One-To-One relation between User and Cart
-User.hasOne(Cart);
-Cart.belongsTo(User);
-
-// Many-To-Many relation between Cart and Product. Join-table entity: CartItem
-Product.belongsToMany(Cart, { through: CartItem });
-Cart.belongsToMany(Product, { through: CartItem });
-// Order.hasMany(Product, { through: OrderItem });
-
-// Initiating the ORM and the server itself.
-sequelize
-  .sync()
-  .then(() => {
-    app.listen(8080);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+mongoConnect(() => {
+  app.listen(8080);
+});

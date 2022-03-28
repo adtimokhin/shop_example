@@ -16,14 +16,10 @@ const postAddProduct = (request, response, next) => {
   const price = request.body.price;
   const stock = request.body.stock;
 
-  Product.create({
-    title: title,
-    imageURL: imageURL,
-    description: description,
-    price: price,
-    stock: stock,
-  })
-    .then(() => {
+  const product = new Product(title, imageURL, description, price, stock);
+  product
+    .save()
+    .then((result) => {
       response.redirect(urls.ALL_PRODUCTS_PATH);
     })
     .catch((err) => {
@@ -34,6 +30,10 @@ const postAddProduct = (request, response, next) => {
 const getAllProducts = (request, response, next) => {
   Product.findAll()
     .then((products) => {
+      products.map((product) => {
+        product._id = product._id.toString();
+      });
+
       response.render("products.ejs", {
         path: urls.ALL_PRODUCTS_PATH,
         pageTitle: "All products",
@@ -49,46 +49,49 @@ const getAllProducts = (request, response, next) => {
 // get product by its id
 const getProduct = (request, response, next) => {
   let productId = request.params.productId;
-  Product.findByPk(productId)
-    .then((products) => {
-      if (!products) {
-        next();
-      }
 
-      response.render("product.ejs", {
-        path: urls.ALL_PRODUCTS_PATH + "/" + productId,
-        pageTitle: products.dataValues.title,
-        product: products,
-      });
-    })
-    .catch(next);
+  Product.findById(productId).then((product) => {
+    if (!product) {
+      next();
+    }
+
+    product._id = product._id.toString();
+
+    response.render("product.ejs", {
+      path: urls.ALL_PRODUCTS_PATH + "/" + productId,
+      pageTitle: product.title,
+      product: product,
+    });
+  });
 };
 
 // delete product by its id
 const deleteProduct = (request, response, next) => {
   const productId = request.params.productId;
 
-  Product.destroy({ where: { id: productId } })
-    .then(() => {
-      console.log("Product is destroyed!");
+  Product.deleteById(productId)
+    .then((result) => {
+      console.log("Item was deleted successfully!");
       response.redirect(urls.ALL_PRODUCTS_PATH);
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => {
+      console.log(err);
     });
 };
 
 const getUpdateProduct = (request, response, next) => {
   const productId = request.params.productId;
-  Product.findOne({ where: { id: productId } })
+
+  Product.findById(productId)
     .then((product) => {
       if (!product) {
         next();
       }
+      product._id = product._id.toString();
 
       response.render("admin/updateProduct.ejs", {
         path: urls.ALL_PRODUCTS_PATH + urls.UPDATE_ACTION + "/" + productId,
-        pageTitle: "Update product" + product.title,
+        pageTitle: "Update product " + product.title,
         product: product,
       });
     })
@@ -105,26 +108,22 @@ const updateProduct = (request, response, next) => {
   const price = request.body.price;
   const stock = request.body.stock;
 
-  Product.findOne({ where: { id: productId } })
-    .then((product) => {
-      if (product == null) {
-        console.log("Tried to update a product that does not exist");
-        next();
-      }
+  const product = new Product(
+    title,
+    imageURL,
+    description,
+    price,
+    stock,
+    productId
+  );
 
-      product.title = title;
-      product.imageURL = imageURL;
-      product.description = description;
-      product.price = price;
-      product.stock = stock;
-
-      return product.save();
-    })
+  product
+    .update()
     .then(() => {
       console.log("Product with id" + productId + "was updated.");
       response.redirect(urls.ALL_PRODUCTS_PATH);
     })
-    .catch((error) => {
+    .catch((err) => {
       console.log(error);
     });
 };

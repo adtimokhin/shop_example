@@ -24,7 +24,7 @@
             <p class="product__description">Only <%= product.stock%> left!</p>
           </div>
           <div class="card__actions">
-            <form action="/cart/add/<%= product.id %>" method="POST">
+            <form action="/cart/add/<%= product._id %>" method="POST">
               <input type="submit" value="Add to Cart" />
             </form>
           </div>

@@ -13,4 +13,14 @@ router.get(
   productController.deleteProduct
 );
 
+router.get(
+  urls.ALL_PRODUCTS_PATH + urls.UPDATE_ACTION + "/:productId",
+  productController.getUpdateProduct
+);
+
+router.post(
+  urls.ALL_PRODUCTS_PATH + urls.UPDATE_ACTION,
+  productController.updateProduct
+);
+
 module.exports = router;

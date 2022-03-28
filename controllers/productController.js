@@ -3,7 +3,7 @@ const Product = require("../models/product.js");
 const urls = require("../static/urls.js");
 
 const getAddProduct = (request, response, next) => {
-  response.render("addProduct.ejs", {
+  response.render("admin/addProduct.ejs", {
     path: urls.ADD_PRODUCT_PATH,
     pageTitle: "Add a new awesome product!",
   });
@@ -86,7 +86,7 @@ const getUpdateProduct = (request, response, next) => {
         next();
       }
 
-      response.render("updateProduct.ejs", {
+      response.render("admin/updateProduct.ejs", {
         path: urls.ALL_PRODUCTS_PATH + urls.UPDATE_ACTION + "/" + productId,
         pageTitle: "Update product" + product.title,
         product: product,

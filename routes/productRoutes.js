@@ -14,14 +14,6 @@ const urls = require("../static/urls.js");
 router.get(urls.ALL_PRODUCTS_PATH, controller.getAllProducts);
 router.get(urls.ALL_PRODUCTS_PATH + "/:productId", controller.getProduct);
 
-router.get(
-  urls.ALL_PRODUCTS_PATH + urls.UPDATE_ACTION + "/:productId",
-  controller.getUpdateProduct
-);
 
-router.post(
-  urls.ALL_PRODUCTS_PATH + urls.UPDATE_ACTION,
-  controller.updateProduct
-);
 
 module.exports = router;

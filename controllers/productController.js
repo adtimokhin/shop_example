@@ -2,7 +2,6 @@ const Product = require("../models/product.js");
 
 const urls = require("../static/urls.js");
 
-
 const getAddProduct = (request, response, next) => {
   response.render("addProduct.ejs", {
     path: urls.ADD_PRODUCT_PATH,

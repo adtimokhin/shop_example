@@ -9,6 +9,7 @@ const sequelize = require("./util/database.js");
 const globalRouter = require("./routes/globalRoutes.js");
 const productRouter = require("./routes/productRoutes.js");
 const cartRouter = require("./routes/cartRoutes.js");
+const adminRouter = require("./routes/adminRoutes.js");
 
 // models:
 const User = require("./models/user.js");
@@ -35,6 +36,7 @@ app.use((request, response, next) => {
 // my routers:
 app.use(productRouter);
 app.use(cartRouter);
+app.use(adminRouter);
 app.use(globalRouter);
 
 // handling 404:

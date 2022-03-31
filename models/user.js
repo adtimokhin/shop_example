@@ -90,6 +90,10 @@ class User {
       .collection("users")
       .findOne({ _id: new ObjectId(userId) });
   }
+
+  static findByEmail(email) {
+    return getDb().collection("users").find({ email: email }).next();
+  }
 }
 
 module.exports = User;
